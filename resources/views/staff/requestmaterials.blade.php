@@ -23,8 +23,8 @@
     @include('staff/sidebar')
 
     <div class="content">
-    <div class="container">
-    <button type="button" id="showModal" class="btn btn-primary">Request Materials</button><br><hr>
+    <div class="container"><br>
+    <button type="button" id="showModal" class="btn btn-primary">Request Materials</button><br><hr><br>
 
      <!-- Modal -->
      <div class="modal" tabindex="-1" role="dialog" id="materialModal">
@@ -63,7 +63,7 @@
     
      <!-- Display Materials List -->
 <div class="materials-list">
-    <h2>Requested Materials List</h2><br><br>
+    <h1>Requested Materials List</h1><br><br>
     <table class="table">
         <thead>
             <tr>
@@ -85,8 +85,6 @@
                     <button class="btn btn-warning edit-material" data-id="{{ $material->id }}">Edit</button>
                     <button class="btn btn-danger delete-material" data-id="{{ $material->id }}">Delete</button>
                 </td>
-
-                
             </tr>
             @endforeach
         </tbody>

@@ -6,19 +6,20 @@ use App\Http\Controllers\RequestMaterialsController;
 
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\RequestController;
 use App\Http\Middleware\admin;
 use App\MaterialRequest;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-route::get('/home',[HomeController::class,'index'])->middleware('auth')->name('home');
+route::get('/',[HomeController::class,'index'])->middleware('auth')->name('home');
 Route::middleware(['auth', 'admin'])->group(function () {
     
 
@@ -53,11 +54,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('analytics');
 });
 
+//Request Materials by Staff Routes
 Route::post('/save-material', [RequestMaterialsController::class, 'store']);
 Route::get('/requestmaterials', [RequestMaterialsController::class, 'list'])->name('requestmaterials');
 Route::delete('/materials/{material}', [RequestMaterialsController::class, 'destroy'])->name('materials.destroy');
 Route::put('/materials/{material}', [RequestMaterialsController::class, 'update'])->name('materials.update');
 
+//Routes For Admin Inventory
+Route::get('/material', [InventoryController::class, 'index'])->name('material');
+Route::post('/add-inventory', [InventoryController::class, 'store'])->name('add-inventory');
+Route::put('/inventory/{id}', [InventoryController::class, 'update'])->name('update-inventory');
+Route::delete('/inventory/{id}', [InventoryController::class, 'delete']);
 
 
 Route::middleware('auth')->group(function () {
