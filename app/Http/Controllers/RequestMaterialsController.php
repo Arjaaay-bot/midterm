@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\RequestMaterial;
+use App\Models\Inventory; 
 
 class RequestMaterialsController extends Controller
 {
@@ -33,6 +34,14 @@ class RequestMaterialsController extends Controller
         $materials = RequestMaterial::all();
 
         return view('staff.requestmaterials', compact('materials'));
+        return view('staff.materials', compact('materials'));
+    }
+
+    public function index()
+    {
+        $inventoryItems = Inventory::all();
+
+        return view('staff.materials', ['inventoryItems' => $inventoryItems]);
     }
 
     public function destroy(RequestMaterial $material)

@@ -44,7 +44,7 @@
             </a>
             <a href="{{ route('materials') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item  @if(request()->routeIs('materials')) active-nav-link @else @endif">
                 <i class="fas fa-align-left mr-3"></i>
-                Materials
+                Inventories
             </a>
             <a href="{{ route('requestmaterials') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item  @if(request()->routeIs('materials')) active-nav-link @else @endif">
                 <i class="fas fa-align-left mr-3"></i>

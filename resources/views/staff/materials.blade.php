@@ -4,10 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard</title>
-    <meta name="author" content="David Grzyb">
-    <meta name="description" content="">
-
+    <title>Staff View Inventory</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -18,17 +16,27 @@
 <body class="bg-gray-100 font-family-karla flex">
 @include('staff/sidebar')
   
-    
-        <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
-            <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6"> Materials</h1>
-<h1>bob mo gago</h1>
-                <!-- Content goes here! 😁 -->
-            </main>
-    
-          
+    <div class="container">
+        <div class="materials-list">
+            <h1 class="mt-3">Construction Materials Inventory</h1>
+            <table class="table table-bordered table-striped mt-3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($inventoryItems as $item)
+                        <td>{{ $item->name }}</td>
+                        <td>{{ $item->quantity }}</td>
+                        <td>{{ $item->amount }}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
-        
     </div>
 
     <!-- AlpineJS -->

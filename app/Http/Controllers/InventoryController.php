@@ -11,22 +11,19 @@ class InventoryController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the form data
         $validatedData = $request->validate([
             'name' => 'required',
             'quantity' => 'required|integer',
             'amount' => 'required|numeric',
         ]);
 
-        // Create a new inventory item
         Inventory::create($validatedData);
 
-        return redirect()->route('material'); // Redirect back to the materials page
+        return redirect()->route('material');
     }
 
     public function index()
     {
-        // Retrieve all inventory items from the database
         $inventoryItems = Inventory::all();
 
         return view('admin.materials', ['inventoryItems' => $inventoryItems]);
@@ -34,21 +31,14 @@ class InventoryController extends Controller
     
     public function update(Request $request, $id)
 {
-    // Validate the incoming request data
     $validatedData = $request->validate([
         'name' => 'required|string',
         'quantity' => 'required|integer',
         'amount' => 'required|string',
     ]);
 
-    // Find the inventory item by ID
     $inventoryItem = Inventory::find($id);
 
-    if (!$inventoryItem) {
-        // Handle the case where the item is not found (e.g., show an error message)
-    }
-
-    // Update the item's attributes
     $inventoryItem->name = $validatedData['name'];
     $inventoryItem->quantity = $validatedData['quantity'];
     $inventoryItem->amount = $validatedData['amount'];
@@ -59,7 +49,6 @@ class InventoryController extends Controller
 
     public function delete(Request $request, $id) {
         try {
-            // Find the item by ID and delete it
             $item = Inventory::find($id);
             if ($item) {
                 $item->delete();

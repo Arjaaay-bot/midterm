@@ -31,6 +31,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         return view('admin.materials');
     })->name('material');
 
+    Route::get('/requests', function () {
+        return view('admin.requests');
+    })->name('requests');
+
     Route::get('/analytic', function () {
         return view('admin.analytics');
     })->name('analytic');
@@ -66,11 +70,13 @@ Route::post('/add-inventory', [InventoryController::class, 'store'])->name('add-
 Route::put('/inventory/{id}', [InventoryController::class, 'update'])->name('update-inventory');
 Route::delete('/inventory/{id}', [InventoryController::class, 'delete']);
 
+//Routes for viewing inventory by staff
+Route::get('/materials', [RequestMaterialsController::class, 'index'])->name('materials');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
 require __DIR__.'/auth.php';

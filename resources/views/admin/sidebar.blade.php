@@ -46,6 +46,10 @@
                 <i class="fas fa-align-left mr-3"></i>
                 Inventories
             </a>
+            <a href="{{ route('requests') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('analytics')) active-nav-link @else @endif">
+                <i class="fas fa-tablet-alt mr-3"></i>
+                Requests
+            </a>
             <a href="{{ route('analytic') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('analytics')) active-nav-link @else @endif">
                 <i class="fas fa-tablet-alt mr-3"></i>
                 Analytics
