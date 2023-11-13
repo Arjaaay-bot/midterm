@@ -64,4 +64,20 @@ class RequestMaterialsController extends Controller
         return response()->json(['message' => 'Material updated successfully']);
     }
 
+        public function getTotalRequests()
+    {
+        $totalRequests = RequestMaterial::count();
+        return response()->json(['totalRequests' => $totalRequests]);
+    }
+
+
+    public function getChartStatusData()
+    {
+        $waiting = RequestMaterial::where('status', 'waiting for approval')->count();
+        $accepted = RequestMaterial::where('status', 'accepted')->count();
+        $declined = RequestMaterial::where('status', 'declined')->count();
+    
+        return response()->json(['waiting' => $waiting, 'accepted' => $accepted, 'declined' => $declined]);
+    }
+
 }

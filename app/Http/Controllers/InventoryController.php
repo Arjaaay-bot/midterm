@@ -73,7 +73,6 @@ class InventoryController extends Controller
         $inventoryItem->update(['quantity' => $newQuantity]);
 
         if ($newQuantity < 10) {
-            // Send notification
             $inventoryItem->notify(new LowQuantityNotification());
         }
 
@@ -89,5 +88,26 @@ public function getMaterialNames()
         return response()->json($materialNames);
     }
 
+    public function getTotalInventories()
+    {
+        $totalInventories = Inventory::count();
+        return response()->json(['totalInventories' => $totalInventories]);
+    }
 
+    public function getChartData()
+    {
+        // Fetch data from your SQL database, for example, the quantity of each inventory item
+        $inventoryData = Inventory::pluck('quantity', 'name')->toArray();
+
+        return response()->json(['inventoryData' => $inventoryData]);
+    }
+    public function getChartInventoryData()
+{
+    $inventoryItems = Inventory::all();
+
+    $labels = $inventoryItems->pluck('name');
+    $quantities = $inventoryItems->pluck('quantity');
+
+    return response()->json(['labels' => $labels, 'quantities' => $quantities]);
+}
 }

@@ -20,9 +20,9 @@
 @include('admin/sidebar')
 
     <div class="p-4">
-        <button id="addInventoryButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Add Inventory
-        </button>   
+        <button id="addInventoryButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
+            <i class="fas fa-plus-circle text-xl mr-2"></i> Add Inventory
+        </button>
     </div>
     
     <div class="materials-list mt-8">
@@ -51,13 +51,13 @@
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item->amount }}</td>
                             <td class="py-2 px-4 border-b">
-                                <a href="#" class="text-blue-500 hover:text-blue-700 edit-item" data-id="{{ $item->id }}">
+                                <a href="#" class="btn btn-primary edit-item" data-id="{{ $item->id }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" class="text-red-500 hover:text-red-700 delete-item" data-id="{{ $item->id }}">
+                                <a href="#" class="btn btn-danger delete-item" data-id="{{ $item->id }}">
                                     <i class="fas fa-trash"></i>
                                 </a>
-                                <a href="#" class="text-yellow-500 hover:text-yellow-700 reduce-quantity" data-id="{{ $item->id }}">
+                                <a href="#" class="btn btn-warning reduce-quantity" data-id="{{ $item->id }}">
                                     <i class="fas fa-minus"></i>
                                 </a>
                             </td>

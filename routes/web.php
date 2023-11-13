@@ -45,6 +45,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::get('/dashboard', function () {
+        return view('staff.dashboard');
+    })->name('dashboard');
+
     Route::get('/project', function () {
         return view('staff.project');
     })->name('project');
@@ -60,6 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/analytics', function () {
         return view('staff.analytics');
     })->name('analytics');
+    Route::get('/total-waiting-requests', [RequestMaterialsController::class, 'getTotalWaitingRequests']);
 });
 
 //Request Materials by Staff Routes
@@ -77,6 +83,15 @@ Route::delete('/inventory/{id}', [InventoryController::class, 'delete']);
 //Routes for viewing Request Materials by staff
 Route::get('/materials', [RequestMaterialsController::class, 'index'])->name('materials');
 Route::put('/inventory/{id}/reduce-quantity', [InventoryController::class, 'reduceQuantity']);
+
+//Routes for Dashboard staff/admin
+Route::get('/total-inventories', [InventoryController::class, 'getTotalInventories']);
+Route::get('/total-requests', [RequestMaterialsController::class, 'getTotalRequests']);
+
+//Routes for Analytics staff/admin
+Route::get('/chart-data', [RequestMaterialsController::class, 'getChartStatusData']);
+Route::get('/chart-inventory', [InventoryController::class, 'getChartInventoryData']);
+
 
 Route::middleware('auth', 'admin')->group(function () {
 Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

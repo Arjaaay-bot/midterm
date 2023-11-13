@@ -7,7 +7,7 @@
     <title>Admin Dashboard</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
@@ -21,8 +21,8 @@
     
         <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
             <main class="w-full flex-grow p-6">
-                <h1 class="text-3xl text-black pb-6">analytics</h1>
-<h1>tanga ka it pa</h1>
+<h1>Dina to kasali</h1>
+<h1>Dito nalang sa report generation</h1>  
                 <!-- Content goes here! 😁 -->
             </main>
     
