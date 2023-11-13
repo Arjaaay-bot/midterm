@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inventory extends Model
 {
-    protected $table = 'inventories'; // Set the table name
-    protected $fillable = ['name', 'quantity', 'amount']; // Define the fillable fields
+    protected $table = 'inventories';
+    protected $fillable = ['name', 'quantity', 'amount'];
 }

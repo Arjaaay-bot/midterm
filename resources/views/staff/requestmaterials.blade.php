@@ -11,6 +11,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+       
     </style>
 </head>
 
@@ -71,11 +72,18 @@
                 </thead>
                 <tbody>
                     @foreach($materials as $material)
-                    <tr data-id="{{ $material->id }}">
-                        <td>{{ $material->name }}</td>
+                    <tr data-id="{{ $material->id }}" class="@if($material->status === 'accepted') table-success @elseif($material->status === 'declined') table-danger @endif">
+                    <td>{{ $material->name }}</td>
                         <td>{{ $material->quantity }}</td>
                         <td>{{ $material->amount }}</td>
-                        <td>{{ $material->status }}</td>
+                        <td class="@if($material->status === 'accepted') status-accepted @endif">
+                            {{ $material->status }}
+                            @if($material->status === 'accepted')
+                                <i class="fas fa-check-circle text-success"></i>
+                            @elseif($material->status === 'declined')
+                                <i class="fas fa-times-circle text-danger"></i>
+                            @endif
+                        </td>
                         <td>
                             <button class="btn btn-warning edit-material" data-id="{{ $material->id }}">Edit</button>
                             <button class="btn btn-danger delete-material" data-id="{{ $material->id }}">Delete</button>

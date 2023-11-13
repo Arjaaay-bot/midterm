@@ -10,6 +10,7 @@ use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\RequestController;
 use App\Http\Middleware\admin;
 use App\MaterialRequest;
+use App\Http\Controllers\Admin\MaterialRequestController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -22,6 +23,9 @@ use App\MaterialRequest;
 route::get('/',[HomeController::class,'index'])->middleware('auth')->name('home');
 Route::middleware(['auth', 'admin'])->group(function () {
     
+    Route::get('/home', function () {
+        return view('admin.adminhome');
+    })->name('home');
 
     Route::get('/projects', function () {
         return view('admin.project');
@@ -70,13 +74,17 @@ Route::post('/add-inventory', [InventoryController::class, 'store'])->name('add-
 Route::put('/inventory/{id}', [InventoryController::class, 'update'])->name('update-inventory');
 Route::delete('/inventory/{id}', [InventoryController::class, 'delete']);
 
-//Routes for viewing inventory by staff
+//Routes for viewing Request Materials by staff
 Route::get('/materials', [RequestMaterialsController::class, 'index'])->name('materials');
+Route::put('/inventory/{id}/reduce-quantity', [InventoryController::class, 'reduceQuantity']);
 
+Route::middleware('auth', 'admin')->group(function () {
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+Route::get('/requests', [MaterialRequestController::class, 'index'])->name('admin.requests');
+Route::put('/requests/{id}/accept', [MaterialRequestController::class, 'accept'])->name('admin.requests.accept');
+Route::put('/requests/{id}/decline', [MaterialRequestController::class, 'decline'])->name('admin.requests.decline');
 });
 require __DIR__.'/auth.php';

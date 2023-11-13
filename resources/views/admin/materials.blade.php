@@ -25,35 +25,69 @@
         </button>   
     </div>
     
-    <div class="materials-list">
-        <h1>Construction Materials Inventory</h1><br><br>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Amount</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($inventoryItems as $item)
-                    <tr data-id="{{ $item->id }}">
-                        <td>{{ $item->name }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ $item->amount }}</td>
-                        <td>
-                            <a href="#" class="edit-item" data-id="{{ $item->id }}">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="#" class="delete-item" data-id="{{ $item->id }}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
+    <div class="materials-list mt-8">
+        <h1 class="text-2xl font-bold mb-4">Construction Materials Inventory</h1>
+        <div class="overflow-x-auto">
+            <table class="table w-full border shadow">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="py-2 px-4 border-b">Name</th>
+                        <th class="py-2 px-4 border-b">Quantity</th>
+                        <th class="py-2 px-4 border-b">Amount</th>
+                        <th class="py-2 px-4 border-b">Action</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach($inventoryItems as $item)
+                        <tr data-id="{{ $item->id }}" class="{{ $item->quantity <= 20 ? 'bg-red-100' : '' }}">
+                            <td class="py-2 px-4 border-b">{{ $item->name }}</td>
+                            <td class="py-2 px-4 border-b">
+                                @if ($item->quantity <= 20)
+                                    <span class="text-red-500">{{ $item->quantity }}</span>
+                                    <p class="text-red-500">Low quantity warning!</p>
+                                @else
+                                    {{ $item->quantity }}
+                                @endif
+                            </td>
+                            <td class="py-2 px-4 border-b">{{ $item->amount }}</td>
+                            <td class="py-2 px-4 border-b">
+                                <a href="#" class="text-blue-500 hover:text-blue-700 edit-item" data-id="{{ $item->id }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="#" class="text-red-500 hover:text-red-700 delete-item" data-id="{{ $item->id }}">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                <a href="#" class="text-yellow-500 hover:text-yellow-700 reduce-quantity" data-id="{{ $item->id }}">
+                                    <i class="fas fa-minus"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+        <!-- Reduce Quantity Modal -->
+    <div class="modal fade" id="reduceQuantityModal" tabindex="-1" role="dialog" aria-labelledby="reduceQuantityModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reduceQuantityModalLabel">Reduce Quantity</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="reduceQuantityInput">Enter Quantity to Reduce:</label>
+                    <input type="number" id="reduceQuantityInput" class="form-control" min="1" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="confirmReduceQuantity">Reduce Quantity</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div id="deleteItemModal" class="fixed top-0 left-0 w-full h-full flex items-center justify-center hidden">
@@ -210,6 +244,52 @@
             document.getElementById("deleteItemModal").classList.add("hidden");
 });
 
+document.querySelectorAll(".reduce-quantity").forEach(function (reduceButton) {
+        reduceButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            var itemId = event.currentTarget.getAttribute("data-id");
+            $('#reduceQuantityModal').modal('show');
+
+            // Set the item id in the modal for reference
+            $('#reduceQuantityModal').data('item-id', itemId);
+        });
+    });
+
+    $('#confirmReduceQuantity').on('click', function () {
+        var itemId = $('#reduceQuantityModal').data('item-id');
+        var reduceQuantity = $('#reduceQuantityInput').val();
+
+        $.ajax({
+            type: "PUT",
+            url: `/inventory/${itemId}/reduce-quantity`,
+            data: {
+                _token: "{{ csrf_token() }}",
+                reduceQuantity: reduceQuantity,
+            },
+            success: function (response) {
+                if (response.success) {
+                    // Update the quantity in the UI
+                    var itemRow = document.querySelector(`tr[data-id="${itemId}"]`);
+                    var newQuantity = response.newQuantity;
+                    itemRow.querySelector("td:nth-child(2)").innerText = newQuantity;
+
+                    // Close the modal
+                    $('#reduceQuantityModal').modal('hide');
+                } else {
+                    alert(response.message);
+                }
+            },
+            error: function () {
+                alert("Failed to reduce the quantity.");
+            }
+        });
+    });
+    document.querySelectorAll(".show-notifications").forEach(function (notificationButton) {
+    notificationButton.addEventListener("click", function () {
+        // Show notifications modal or update notifications area
+        // Fetch notifications from the server if needed
+    });
+});
 
 </script>
 
