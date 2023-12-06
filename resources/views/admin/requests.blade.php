@@ -13,22 +13,30 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+        .container {
+            background-color: white;
+            box-shadow: 4px 4px 20px #DADADA;
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+        }
     </style>
 </head>
 
 <body class="bg-gray-100 font-family-karla flex">
     @include('admin/sidebar')
-
-
-    <br><h1>Material Requests</h1><br><br>
-
-<table class="table">
+    <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+<div class="container">
+    <h1 class="text-2xl font-bold mb-2 mt-3 welcome-message">List of Material Requested</h1>
+<br><br>
+<table class="table w-full border shadow">
     <thead>
         <tr>
             <th>Name</th>
             <th>Quantity</th>
             <th>Amount</th>
             <th>Status</th>
+            <th>Requested Date/Time</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -46,10 +54,9 @@
             <i class="fas fa-times-circle text-danger"></i>
             @endif
         </td>
+        <td>{{ $request->created_at }}</td>
         <td>
             <div class="btn-group" role="group">
-                <!-- Add your accept and decline buttons here -->
-                <!-- You may want to add a confirmation modal for decline action -->
                 <form method="post" action="{{ route('admin.requests.accept', $request->id) }}">
                     @csrf
                     @method('put')
@@ -66,6 +73,8 @@
     @endforeach
     </tbody>
 </table>
+    </div>
+    </div>
 
     <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>

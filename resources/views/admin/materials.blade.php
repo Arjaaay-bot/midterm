@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Admin Dashboard</title>
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
@@ -14,20 +15,33 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
      
+        body {
+            height: 100vh; /* Set the body height to full viewport height */
+            overflow-y: auto; /* Enable vertical scrolling */
+        }
+
+        .container {
+        background-color: white;
+        box-shadow: 4px 4px 20px #DADADA;
+        padding: 10px;
+        margin: 10px;
+        width: 100%;
+        min-height: 100vh;
+        overflow: auto; /* Enable both vertical and horizontal scrolling */
+    }
+
     </style>
 </head>
 <body class="bg-gray-100 font-family-karla flex">
 @include('admin/sidebar')
-
-    <div class="p-4">
-        <button id="addInventoryButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
+    <div class="container">
+<div class="flex justify-between items-center mt-8">
+        <h1 class="text-2xl font-bold">Construction Materials Inventory</h1>
+        <button id="addInventoryButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold mb-3 py-2 px-4 rounded flex items-center">
             <i class="fas fa-plus-circle text-xl mr-2"></i> Add Inventory
         </button>
     </div>
-    
-    <div class="materials-list mt-8">
-        <h1 class="text-2xl font-bold mb-4">Construction Materials Inventory</h1>
-        <div class="overflow-x-auto">
+    <div class="table-container overflow-x-auto overflow-y-auto">
             <table class="table w-full border shadow">
                 <thead>
                     <tr class="bg-gray-200">
@@ -39,10 +53,10 @@
                 </thead>
                 <tbody>
                     @foreach($inventoryItems as $item)
-                        <tr data-id="{{ $item->id }}" class="{{ $item->quantity <= 20 ? 'bg-red-100' : '' }}">
+                        <tr data-id="{{ $item->id }}" class="{{ $item->quantity <= 10 ? 'bg-red-100' : '' }}">
                             <td class="py-2 px-4 border-b">{{ $item->name }}</td>
                             <td class="py-2 px-4 border-b">
-                                @if ($item->quantity <= 20)
+                                @if ($item->quantity <= 10)
                                     <span class="text-red-500">{{ $item->quantity }}</span>
                                     <p class="text-red-500">Low quantity warning!</p>
                                 @else
@@ -74,16 +88,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reduceQuantityModalLabel">Reduce Quantity</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <label for="reduceQuantityInput">Enter Quantity to Reduce:</label>
                     <input type="number" id="reduceQuantityInput" class="form-control" min="1" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="confirmReduceQuantity">Reduce Quantity</button>
                 </div>
             </div>
@@ -173,7 +185,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
@@ -290,6 +302,10 @@ document.querySelectorAll(".reduce-quantity").forEach(function (reduceButton) {
         // Fetch notifications from the server if needed
     });
 });
+document.getElementById("closeEditModal").addEventListener("click", function() {
+    document.getElementById("editItemModal").classList.add("hidden");
+});
+
 
 </script>
 

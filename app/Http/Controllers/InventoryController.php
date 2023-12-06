@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Inventory; 
 use App\Notifications\LowQuantityNotification;
+use Carbon\Carbon;
 
 class InventoryController extends Controller
 {
@@ -28,6 +29,34 @@ class InventoryController extends Controller
         $inventoryItems = Inventory::all();
 
         return view('admin.materials', ['inventoryItems' => $inventoryItems]);
+    }
+
+    public function analyticsView(Request $request)
+    {
+        $selectedMonth = $request->input('selected_month', Carbon::now()->format('m'));
+
+        $inventoryItems = Inventory::whereMonth('updated_at', $selectedMonth)->get();
+        $totalAmount = $inventoryItems->sum('amount');
+
+        return view('admin.analytics', [
+            'inventoryItems' => $inventoryItems,
+            'totalAmount' => $totalAmount,
+            'selectedMonth' => $selectedMonth,
+        ]);
+    }
+
+    public function generateReportStaff(Request $request)
+    {
+        $selectedMonth = $request->input('selected_month', Carbon::now()->format('m'));
+
+        $inventoryItems = Inventory::whereMonth('updated_at', $selectedMonth)->get();
+        $totalAmount = $inventoryItems->sum('amount');
+
+        return view('staff.analytics', [
+            'inventoryItems' => $inventoryItems,
+            'totalAmount' => $totalAmount,
+            'selectedMonth' => $selectedMonth,
+        ]);
     }
     
     public function update(Request $request, $id)
@@ -76,7 +105,7 @@ class InventoryController extends Controller
             $inventoryItem->notify(new LowQuantityNotification());
         }
 
-        return response()->json(['success' => true, 'newQuantity' => $newQuantity, 'warning' => $newQuantity <= 20]);
+        return response()->json(['success' => true, 'newQuantity' => $newQuantity, 'warning' => $newQuantity <= 10]);
     }
 
     return response()->json(['success' => false, 'message' => 'Invalid quantity to reduce.']);
@@ -96,7 +125,6 @@ public function getMaterialNames()
 
     public function getChartData()
     {
-        // Fetch data from your SQL database, for example, the quantity of each inventory item
         $inventoryData = Inventory::pluck('quantity', 'name')->toArray();
 
         return response()->json(['inventoryData' => $inventoryData]);

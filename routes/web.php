@@ -11,25 +11,29 @@ use App\Http\Controllers\RequestController;
 use App\Http\Middleware\admin;
 use App\MaterialRequest;
 use App\Http\Controllers\Admin\MaterialRequestController;
+use App\Http\Controllers\Admin\ProjectController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-route::get('/',[HomeController::class,'index'])->middleware('auth')->name('home');
+route::get('/home',[HomeController::class,'index'])->middleware('auth')->name('home');
 Route::middleware(['auth', 'admin'])->group(function () {
     
-    Route::get('/home', function () {
-        return view('admin.adminhome');
-    })->name('home');
-
-    Route::get('/projects', function () {
-        return view('admin.project');
-    })->name('projects');
+    // Route::get('/home', function () {
+    //     return view('admin.adminhome');
+    // })->name('home');
+    Route::post('projects', [ProjectController::class, 'store'])->name('admin.projects.store');
+    Route::get('/projects', [ProjectController::class, 'index'])->name('admin.projects.index');
+    Route::put('projects/{project}', [ProjectController::class, 'update'])->name('admin.projects.update');
+    Route::delete('projects/{project}', [ProjectController::class, 'destroy'])->name('admin.projects.destroy');
+    // Route::get('/projects', function () {
+    //     return view('admin.project');
+    // })->name('projects');
 
     Route::get('/material', function () {
         return view('admin.materials');
@@ -76,9 +80,12 @@ Route::put('/materials/{material}', [RequestMaterialsController::class, 'update'
 
 //Routes For Admin Inventory
 Route::get('/material', [InventoryController::class, 'index'])->name('material');
+Route::get('/analytic', [InventoryController::class, 'analyticsView'])->name('analytic');
+Route::get('/analytics', [InventoryController::class, 'generateReportStaff'])->name('analytics');
 Route::post('/add-inventory', [InventoryController::class, 'store'])->name('add-inventory');
 Route::put('/inventory/{id}', [InventoryController::class, 'update'])->name('update-inventory');
 Route::delete('/inventory/{id}', [InventoryController::class, 'delete']);
+
 
 //Routes for viewing Request Materials by staff
 Route::get('/materials', [RequestMaterialsController::class, 'index'])->name('materials');
@@ -87,10 +94,14 @@ Route::put('/inventory/{id}/reduce-quantity', [InventoryController::class, 'redu
 //Routes for Dashboard staff/admin
 Route::get('/total-inventories', [InventoryController::class, 'getTotalInventories']);
 Route::get('/total-requests', [RequestMaterialsController::class, 'getTotalRequests']);
+Route::get('/total-projects', [ProjectController::class, 'getTotalProjects']);
 
 //Routes for Analytics staff/admin
 Route::get('/chart-data', [RequestMaterialsController::class, 'getChartStatusData']);
 Route::get('/chart-inventory', [InventoryController::class, 'getChartInventoryData']);
+
+//Routes for predicting number of projects next month
+Route::get('/next-month-analytics', [ProjectController::class, 'nextMonthAnalytics']);
 
 
 Route::middleware('auth', 'admin')->group(function () {
@@ -102,4 +113,7 @@ Route::get('/requests', [MaterialRequestController::class, 'index'])->name('admi
 Route::put('/requests/{id}/accept', [MaterialRequestController::class, 'accept'])->name('admin.requests.accept');
 Route::put('/requests/{id}/decline', [MaterialRequestController::class, 'decline'])->name('admin.requests.decline');
 });
+Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 require __DIR__.'/auth.php';

@@ -34,25 +34,22 @@
         </div>
         <nav class="text-white text-base font-semibold pt-3">
             <a href="{{ route('dashboard') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('dashboard')) active-nav-link @else @endif ">
-                <i class="fas fa-tachometer-alt mr-3"></i>
+                <i class="fas fa-home mr-3"></i>
                 Dashboard
             </a>
         
-            <a href="{{ route('project') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('project')) active-nav-link @else @endif">
-                <i class="fas fa-table mr-3"></i>
-                Project
-            </a>
+           
             <a href="{{ route('materials') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item  @if(request()->routeIs('materials')) active-nav-link @else @endif">
                 <i class="fas fa-align-left mr-3"></i>
-                Inventories
+                Inventory
             </a>
-            <a href="{{ route('requestmaterials') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item  @if(request()->routeIs('materials')) active-nav-link @else @endif">
-                <i class="fas fa-align-left mr-3"></i>
+            <a href="{{ route('requestmaterials') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item  @if(request()->routeIs('requestmaterials')) active-nav-link @else @endif">
+                <i class="fa fa-bars mr-3"></i>
                 Request Materials
             </a>
             <a href="{{ route('analytics') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('analytics')) active-nav-link @else @endif">
-                <i class="fas fa-tablet-alt mr-3"></i>
-                Analytics
+                <i class="fa fa-file alt mr-3"></i>
+                Generate Report
             </a>
           
         </nav>
