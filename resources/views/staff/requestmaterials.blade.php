@@ -68,7 +68,7 @@
         
         <div class="materials-list">
             <h1>Requested Materials List</h1><br>
-            <table id="datatable" class="table">
+            <table id="myDataTable" class="table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -141,7 +141,7 @@
                     <div class="modal-body">
                         <form id="editMaterialForm">
                             @csrf
-                            @method('PUT') <!-- Use the appropriate method for your server-side routing -->
+                            @method('PUT')
                             <input type="hidden" id="editMaterialId" name="id">
                             <div class="form-group">
                                 <label for="editName">Name</label>
@@ -167,6 +167,10 @@
 
         </div>
        
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
 
     <script>
         $(document).ready(function () {
@@ -239,11 +243,9 @@
                 });
             });
         });
-        new DataTable('#datatable');
+        $(document).ready(function () {
+            $('#myDataTable').DataTable();
+        });
     </script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-
 </body>
 </html>
