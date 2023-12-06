@@ -23,13 +23,12 @@
 </head>
 <body class="bg-gray-100 font-family-karla flex">
 @include('staff/sidebar')
-  
+
 <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
   <div class="container">
 <div class="flex justify-between items-center mt-4 mb-3">
         <h1 class="text-2xl font-bold">Report Generation</h1>
     </div>
-
     <form method="get" action="{{ route('analytics') }}" class="flex space-x-4">
         @csrf
         <div class="flex items-center">
@@ -43,7 +42,9 @@
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Generate</button>
         <button type="button" id="printBtn" class="bg-green-500 text-white px-4 py-2 rounded-md">Print</button>
     </form><br>
+    </form>
     
+    <div class="overflow-x-auto mt-4">
     <table class="table w-full border shadow">
         <thead>
             <tr class="bg-gray-200">
@@ -85,6 +86,8 @@
     </table>
 </div>  
 </div>
+</div>
+</div>  
 <script>
     document.getElementById('printBtn').addEventListener('click', function () {
         const tableContent = document.querySelector('table').outerHTML;
@@ -115,10 +118,7 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-
-    <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </body>
 </html>

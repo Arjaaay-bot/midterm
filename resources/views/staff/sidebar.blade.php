@@ -34,7 +34,7 @@
         </div>
         <nav class="text-white text-base font-semibold pt-3">
             <a href="{{ route('dashboard') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('dashboard')) active-nav-link @else @endif ">
-                <i class="fas fa-tachometer-alt mr-3"></i>
+                <i class="fas fa-home mr-3"></i>
                 Dashboard
             </a>
         
