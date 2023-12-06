@@ -131,7 +131,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="editProjectModalLabel{{ $project->id }}">Edit Project</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-circle-xmark text-2xl text-gray-400 hover:text-gray-600"></i></button>
                         </div>
                         <div class="modal-body">
                              Edit Project Form 
@@ -177,7 +177,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="deleteProjectModalLabel{{ $project->id }}">Delete Project</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa-regular fa-circle-xmark text-2xl text-gray-400 hover:text-gray-600"></i></button>
                         </div>
                         <div class="modal-body">
                             <p>Are you sure you want to delete the project: <strong>{{ $project->project_name }}</strong>?</p>
