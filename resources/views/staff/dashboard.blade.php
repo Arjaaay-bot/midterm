@@ -52,27 +52,13 @@
                 <p class="text-gray-600"><strong>Total Inventories: </strong><span id="totalInventories"></span></p>
             </div>
 
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-5">PROJECTS</h2>
-                <p class="text-gray-600"><strong>Display Here The Total Projects: </strong><span id="totalInventories"></span></p>
-            </div>
-
-            <div class="bg-white p-4 rounded-lg shadow-md">
-                <h2 class="text-xl font-semibold mb-5">ADD IF NEEDED</h2>
-                <p class="text-gray-600">Content Here</p>
-            </div>
         </div>
     </div>
 
     <main class="w-full flex-grow p-6 flex flex-wrap">
         <div class="w-full lg:w-1/2 xl:w-1/3 pr-0 lg:pr-2 mb-6">
-            <h1 class="text-3xl text-black pb-6">Analytics</h1>
-            <h1>My Analytics</h1>
+            <h1 class="text-2xl text-black pb-6">Requests Status Chart</h1>
             <canvas id="requestStatusChart"></canvas>
-        </div>
-        <div class="w-full lg:w-1/2 xl:w-2/3 pl-0 lg:pl-2 mb-6">
-            <h1 class="text-3xl text-black pb-6 mt-6">Inventory Chart</h1>
-            <canvas id="inventoryChart"></canvas>
         </div>
     </main>
     </div>

@@ -8,27 +8,35 @@
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Tailwind -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
+        .container {
+            background-color: white;
+            box-shadow: 4px 4px 20px #DADADA;
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+        }
     </style>
 </head>
 
 <body class="bg-gray-100 font-family-karla flex">
     @include('admin/sidebar')
-
-
-    <br><h1>Material Requests</h1><br><br>
-
-<table class="table">
+    <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+<div class="container">
+    <h1 class="text-2xl font-bold mb-2 mt-3 welcome-message">List of Material Requested</h1>
+<br><br>
+<table id="myDataTable" class="table w-full border shadow">
     <thead>
         <tr>
             <th>Name</th>
             <th>Quantity</th>
             <th>Amount</th>
             <th>Status</th>
+            <th>Requested Date/Time</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -46,19 +54,18 @@
             <i class="fas fa-times-circle text-danger"></i>
             @endif
         </td>
+        <td>{{ $request->created_at }}</td>
         <td>
             <div class="btn-group" role="group">
-                <!-- Add your accept and decline buttons here -->
-                <!-- You may want to add a confirmation modal for decline action -->
                 <form method="post" action="{{ route('admin.requests.accept', $request->id) }}">
                     @csrf
                     @method('put')
-                    <button type="submit" class="btn btn-success">Accept</button>
+                    <button type="submit" class="bg-green-700 text-white py-1 px-2 rounded-l-full text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0">Accept</button>
                 </form>
                 <form method="post" action="{{ route('admin.requests.decline', $request->id) }}">
                     @csrf
                     @method('put')
-                    <button type="submit" class="btn btn-danger">Decline</button>
+                    <button type="submit" class="bg-red-700 text-white py-1 px-2 rounded-r-full text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0">Decline</button>
                 </form>
             </div>
         </td>
@@ -66,13 +73,18 @@
     @endforeach
     </tbody>
 </table>
+    </div>
+    </div>
 
-    <!-- AlpineJS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <!-- Font Awesome -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
-    <!-- jQuery and Bootstrap JS -->
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
    
+    <script>
+        $(document).ready(function () {
+            $('#myDataTable').DataTable();
+        });
+    </script>
 
 </body>
 </html>

@@ -9,26 +9,34 @@
     <meta name="description" content="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
      
+        .container {
+            background-color: white;
+            box-shadow: 4px 4px 20px #DADADA;
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+        }
+
     </style>
 </head>
 <body class="bg-gray-100 font-family-karla flex">
 @include('admin/sidebar')
-
-    <div class="p-4">
-        <button id="addInventoryButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center">
+<div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+    <div class="container">
+<div class="flex justify-between items-center mt-8">
+        <h1 class="text-2xl font-bold">Construction Materials Inventory</h1>
+        <button id="addInventoryButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold mb-3 py-2 px-4 rounded flex items-center">
             <i class="fas fa-plus-circle text-xl mr-2"></i> Add Inventory
         </button>
     </div>
-    
-    <div class="materials-list mt-8">
-        <h1 class="text-2xl font-bold mb-4">Construction Materials Inventory</h1>
         <div class="overflow-x-auto">
-            <table class="table w-full border shadow">
+            <table id="myDataTable" class="table w-full border shadow">
                 <thead>
                     <tr class="bg-gray-200">
                         <th class="py-2 px-4 border-b">Name</th>
@@ -39,10 +47,10 @@
                 </thead>
                 <tbody>
                     @foreach($inventoryItems as $item)
-                        <tr data-id="{{ $item->id }}" class="{{ $item->quantity <= 20 ? 'bg-red-100' : '' }}">
+                        <tr data-id="{{ $item->id }}" class="{{ $item->quantity <= 10 ? 'bg-red-100' : '' }}">
                             <td class="py-2 px-4 border-b">{{ $item->name }}</td>
                             <td class="py-2 px-4 border-b">
-                                @if ($item->quantity <= 20)
+                                @if ($item->quantity <= 10)
                                     <span class="text-red-500">{{ $item->quantity }}</span>
                                     <p class="text-red-500">Low quantity warning!</p>
                                 @else
@@ -51,13 +59,13 @@
                             </td>
                             <td class="py-2 px-4 border-b">{{ $item->amount }}</td>
                             <td class="py-2 px-4 border-b">
-                                <a href="#" class="btn btn-primary edit-item" data-id="{{ $item->id }}">
+                                <a href="#" class="bg-blue-500 text-white py-1 px-2 rounded-l-full text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0 edit-item" data-id="{{ $item->id }}">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <a href="#" class="btn btn-danger delete-item" data-id="{{ $item->id }}">
+                                <a href="#" class="bg-red-500 text-white py-1 px-2 text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0 delete-item" data-id="{{ $item->id }}">
                                     <i class="fas fa-trash"></i>
                                 </a>
-                                <a href="#" class="btn btn-warning reduce-quantity" data-id="{{ $item->id }}">
+                                <a href="#" class="bg-green-500 text-white py-1 px-2 rounded-r-full text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0 reduce-quantity" data-id="{{ $item->id }}">
                                     <i class="fas fa-minus"></i>
                                 </a>
                             </td>
@@ -67,6 +75,7 @@
             </table>
         </div>
     </div>
+</div>
 
         <!-- Reduce Quantity Modal -->
     <div class="modal fade" id="reduceQuantityModal" tabindex="-1" role="dialog" aria-labelledby="reduceQuantityModalLabel" aria-hidden="true">
@@ -74,16 +83,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reduceQuantityModalLabel">Reduce Quantity</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <label for="reduceQuantityInput">Enter Quantity to Reduce:</label>
                     <input type="number" id="reduceQuantityInput" class="form-control" min="1" required>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="confirmReduceQuantity">Reduce Quantity</button>
                 </div>
             </div>
@@ -173,7 +180,7 @@
             </div>
         </div>
     </div>
-
+    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
@@ -249,8 +256,6 @@ document.querySelectorAll(".reduce-quantity").forEach(function (reduceButton) {
             event.preventDefault();
             var itemId = event.currentTarget.getAttribute("data-id");
             $('#reduceQuantityModal').modal('show');
-
-            // Set the item id in the modal for reference
             $('#reduceQuantityModal').data('item-id', itemId);
         });
     });
@@ -268,12 +273,9 @@ document.querySelectorAll(".reduce-quantity").forEach(function (reduceButton) {
             },
             success: function (response) {
                 if (response.success) {
-                    // Update the quantity in the UI
                     var itemRow = document.querySelector(`tr[data-id="${itemId}"]`);
                     var newQuantity = response.newQuantity;
                     itemRow.querySelector("td:nth-child(2)").innerText = newQuantity;
-
-                    // Close the modal
                     $('#reduceQuantityModal').modal('hide');
                 } else {
                     alert(response.message);
@@ -286,17 +288,20 @@ document.querySelectorAll(".reduce-quantity").forEach(function (reduceButton) {
     });
     document.querySelectorAll(".show-notifications").forEach(function (notificationButton) {
     notificationButton.addEventListener("click", function () {
-        // Show notifications modal or update notifications area
-        // Fetch notifications from the server if needed
     });
-});
+    });
+    document.getElementById("closeEditModal").addEventListener("click", function() {
+        document.getElementById("editItemModal").classList.add("hidden");
+    });
+    $(document).ready(function () {
+            $('#myDataTable').DataTable();
+    });
 
 </script>
 
-
-    <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 </body>
 </html>

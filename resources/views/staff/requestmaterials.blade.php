@@ -7,30 +7,39 @@
     <title>Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
-       
+        .container {
+            background-color: white;
+            box-shadow: 4px 4px 20px #DADADA;
+            padding: 10px;
+            margin: 10px;
+            width: 100%;
+        }
     </style>
 </head>
 
 <body class="bg-gray-100 font-family-karla flex">
     @include('staff/sidebar')
-
+    <div class="w-full h-screen overflow-x-hidden border-t flex flex-col">
+<div class="container">
     <div class="content">
         <div class="container"><br>
         <button type="button" id="showModal" class="btn btn-primary">Request Materials</button><br><br><hr><br>
 
-        <!-- Modal For Request Materials -->
         <div class="modal" tabindex="-1" role="dialog" id="materialModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Request Materials</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    
                     </div>
                     <div class="modal-body">
                         <form id="materialForm" method="post">
@@ -57,16 +66,16 @@
             </div>
         </div>
         
-        <!-- Display Materials List -->
         <div class="materials-list">
             <h1>Requested Materials List</h1><br>
-            <table class="table">
+            <table id="datatable" class="table">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Quantity</th>
                         <th>Amount</th>
                         <th>Status</th>
+                        <th>Requested Date/Time</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -84,14 +93,16 @@
                                 <i class="fas fa-times-circle text-danger"></i>
                             @endif
                         </td>
+                        <td>{{$material->created_at}}</td>
                         <td>
-                            <button class="btn btn-warning edit-material" data-id="{{ $material->id }}">Edit</button>
-                            <button class="btn btn-danger delete-material" data-id="{{ $material->id }}">Delete</button>
+                            <button class="bg-blue-500 text-white py-1 px-2 rounded-l-full text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0g edit-material" data-id="{{ $material->id }}">Edit</button>
+                            <button class="bg-red-500 text-white py-1 px-2 rounded-r-full text-sm focus:outline-none focus:shadow-outline-blue active:bg-blue-800 flex-shrink-0 delete-material" data-id="{{ $material->id }}">Delete</button>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
+        </div>
         </div>
 
 
@@ -101,15 +112,14 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Confirm Delete</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                           
                     </div>
                     <div class="modal-body">
                         <p>Are you sure you want to delete this material?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-danger" id="confirmDelete">Delete</button>
                     </div>
                 </div>
@@ -124,8 +134,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Edit Material</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                           
                         </button>
                     </div>
                     <div class="modal-body">
@@ -148,15 +158,15 @@
                         </form>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" id="saveEditedMaterial">Save</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        </div>
+       
 
     <script>
         $(document).ready(function () {
@@ -229,14 +239,11 @@
                 });
             });
         });
+        new DataTable('#datatable');
     </script>
-
-    <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-    <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
-    <!-- jQuery and Bootstrap JS -->
-   
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
 </body>
 </html>
