@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   
-    <!-- Tailwind -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>   
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="./images/ArchDevLogo.png">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
         .container {
@@ -157,15 +156,32 @@
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer py-2 px-4 border-b flex items-center">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="button" class="btn btn-primary" id="saveEditedMaterial">Save</button>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
+    <!-- Modal for updating -->
+    <div class="modal" tabindex="-1" role="dialog" id="successModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Success</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Material updated successfully!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
+    </div>
        
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
@@ -212,6 +228,7 @@
                     data: $('#editMaterialForm').serialize(),
                     success: function (response) {
                         $('#editMaterialModal').modal('hide');
+                        $('#successModal').modal('show');
                     },
                     error: function (error) {
                         console.error(error);

@@ -8,10 +8,11 @@
     <meta name="author" content="David Grzyb">
     <meta name="description" content="">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <style>
+    <link rel="icon" href="./images/ArchDevLogo.png">
+   <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
         .container {
             background-color: white;
@@ -55,7 +56,7 @@
             @endif
         </td>
         <td>{{ $request->created_at }}</td>
-        <td>
+        <td class="py-2 px-4 border-b flex items-center">
             <div class="btn-group" role="group">
                 <form method="post" action="{{ route('admin.requests.accept', $request->id) }}">
                     @csrf

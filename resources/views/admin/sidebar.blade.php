@@ -10,7 +10,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600&display=swap" rel="stylesheet">
-    <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         
@@ -25,9 +24,6 @@
         a {
             text-decoration: none;
         }
-      
-    /* Define the custom bg-orange class with the desired background color */
-
     </style>
 </head>
 
@@ -56,7 +52,7 @@
 <a href="{{ route('admin.requests') }}"
    class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item
           @if(request()->routeIs('admin.requests')) active-nav-link @else @endif">
-    <i class="fas fa-tablet-alt mr-3"></i>
+    <i class="fas fa-bell mr-3"></i>
     Requests
 </a>
 <a href="{{ route('analytic') }}"

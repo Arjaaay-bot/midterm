@@ -6,6 +6,8 @@
     <title>Admin Dashboard</title>
     <meta name="description" content="">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="icon" href="./images/ArchDevLogo.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
