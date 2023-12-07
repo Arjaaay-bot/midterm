@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <meta name="author" content="David Grzyb">
     <meta name="description" content="">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Karla:400,700&display=swap');
@@ -19,13 +17,10 @@
             margin: 10px;
             width: 100%;
         }
-
         @keyframes fadeIn {
             0% { opacity: 0; }
             100% { opacity: 1; }
         }
-
-        /* Apply the animation to the welcome message */
         .welcome-message {
             animation: fadeIn 1.5s ease-in-out;
         }
@@ -71,79 +66,77 @@
     </div>
 
     <script>
-          document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
         fetch('/total-requests')
             .then(response => response.json())
             .then(data => {
-                document.getElementById('totalRequests').innerText = data.totalRequests;
-            })
-            .catch(error => console.error('Error:', error));
-    });
+        document.getElementById('totalRequests').innerText = data.totalRequests;
+        })
+        .catch(error => console.error('Error:', error));
+        });
         document.addEventListener('DOMContentLoaded', function () {
         fetch('/total-inventories')
             .then(response => response.json())
             .then(data => {
-                document.getElementById('totalInventories').innerText = data.totalInventories;
-            })
-            .catch(error => console.error('Error:', error));
+        document.getElementById('totalInventories').innerText = data.totalInventories;
+        })
+        .catch(error => console.error('Error:', error));
         });
         document.addEventListener('DOMContentLoaded', function () {
-            fetch('/chart-data')
-                .then(response => response.json())
-                .then(data => {
-                    var ctx1 = document.getElementById('requestStatusChart').getContext('2d');
-                    var myPieChart = new Chart(ctx1, {
-                        type: 'pie',
-                        data: {
-                            labels: ['Waiting for Approval', 'Accepted', 'Declined'],
-                            datasets: [{
-                                data: [data.waiting, data.accepted, data.declined],
-                                backgroundColor: ['#FFCC00', '#28A745', '#DC3545'],
-                            }],
-                        },
-                    });
-                })
-                .catch(error => console.error('Error fetching request status chart data:', error));
-            fetch('/chart-inventory')
+        fetch('/chart-data')
+            .then(response => response.json())
+            .then(data => {
+                var ctx1 = document.getElementById('requestStatusChart').getContext('2d');
+                var myPieChart = new Chart(ctx1, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Waiting for Approval', 'Accepted', 'Declined'],
+                        datasets: [{
+                            data: [data.waiting, data.accepted, data.declined],
+                            backgroundColor: ['#FFCC00', '#28A745', '#DC3545'],
+                        }],
+                    },
+                });
+            })
+            .catch(error => console.error('Error fetching request status chart data:', error));
+                fetch('/chart-inventory')
                 .then(response => response.json())
                 .then(data => {
                     var ctx2 = document.getElementById('inventoryChart').getContext('2d');
                     var myBarChart = new Chart(ctx2, {
                         type: 'bar',
-                        data: {
-                            labels: data.labels,
-                            datasets: [{
+                            data: {
+                                labels: data.labels,
+                                datasets: [{
                                 label: 'Inventory Quantities',
                                 data: data.quantities,
                                 backgroundColor: '#007BFF',
                             }],
-                        },
+                                },
+                        });
+                     })
+            .catch(error => console.error('Error fetching inventory chart data:', error));
                     });
+                    document.addEventListener('DOMContentLoaded', function () {
+            fetch('/total-projects')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('totalProjects').innerText = data.totalProjects;
                 })
-                .catch(error => console.error('Error fetching inventory chart data:', error));
+                .catch(error => console.error('Error:', error));
             });
-            document.addEventListener('DOMContentLoaded', function () {
-    fetch('/total-projects')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('totalProjects').innerText = data.totalProjects;
-        })
-        .catch(error => console.error('Error:', error));
-});
-            document.addEventListener('DOMContentLoaded', function () {
-            fetch('/next-month-analytics')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('nextMonthProjects').innerText = data.nextMonthProjects;
-            })
-            .catch(error => console.error('Error:', error));
-            });
+                    document.addEventListener('DOMContentLoaded', function () {
+                    fetch('/next-month-analytics')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('nextMonthProjects').innerText = data.nextMonthProjects;
+                    })
+                    .catch(error => console.error('Error:', error));
+                    });
 
     </script>
 
-    <!-- AlpineJS -->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@2.x.x/dist/alpine.min.js" defer></script>
-    <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </body>
 </html>

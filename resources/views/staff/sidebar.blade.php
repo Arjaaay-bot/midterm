@@ -44,7 +44,7 @@
                 Inventory
             </a>
             <a href="{{ route('requestmaterials') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item  @if(request()->routeIs('requestmaterials')) active-nav-link @else @endif">
-                <i class="fa fa-bars mr-3"></i>
+                <i class="fa fa-bell mr-3"></i>
                 Request Materials
             </a>
             <a href="{{ route('analytics') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item @if(request()->routeIs('analytics')) active-nav-link @else @endif">
